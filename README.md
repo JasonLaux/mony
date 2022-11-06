@@ -8,13 +8,13 @@ Database: MySQL
 Backend: Spring Boot, Spring JPA, Spring Security, JWT, RESTful
 
 Frontend: React.js, MUI
-/assets/
-![Tech](/assets/Technology.jpg)
+
+![Tech](assets/Technology.png)
 
 ## Use Case Diagram
 
-![Use Case](/assets/use_case_mony.jpg)
+![Use Case](assets/use_case_mony.png)
 
 ## ER Diagram
 
-![Use Case](/assets/ERD_New.jpg)
+![Use Case](assets/ERD_New.png)
