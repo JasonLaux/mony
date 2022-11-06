@@ -3,3 +3,18 @@ Mony is an online ledger platform that allows users to track daily income and ex
 
 ## Technologies
 
+Database: MySQL
+
+Backend: Spring Boot, Spring JPA, Spring Security, JWT, RESTful
+
+Frontend: React.js, MUI
+
+![Tech](assets/Technology.png)
+
+## Use Case Diagram
+
+![Use Case](assets/use_case_mony.png)
+
+## ER Diagram
+
+![Use Case](assets/ERD_New.png)
