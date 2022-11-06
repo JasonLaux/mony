@@ -19,7 +19,7 @@ Frontend: React.js, MUI
 
 ![Use Case](assets/ERD_New.png)
 
-## UI Scrennshots
+## Screenshots
 ### Login Page
 ![Login](assets/login.jpg)
 
