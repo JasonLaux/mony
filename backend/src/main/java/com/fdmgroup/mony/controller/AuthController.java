@@ -33,7 +33,6 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
     private final TokenProvider tokenProvider;
-
     private final ObjectFactory objectFactory;
 
     /**

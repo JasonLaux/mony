@@ -25,6 +25,9 @@ public class BankAccount {
     @Column(name = "balance")
     private BigDecimal balance;
 
+    @Column(name = "start_balance")
+    private BigDecimal startBalance;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

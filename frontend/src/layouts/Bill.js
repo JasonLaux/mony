@@ -20,6 +20,13 @@ export default function Bill(){
     let ledgerId = params.id.match(/\d+/)[0];
 
     useEffect(() => {
+        fetchList()
+    }, [])
+
+
+    const tableHeader = ["Select", "Created Time", "Amount", "Payee", "Ledger Name", "Bank Account Number"]
+
+    const fetchList = () => {
         apis.getAllBills(ledgerId).then(
             res => {
                 console.log("ledgerId:", ledgerId)
@@ -31,10 +38,7 @@ export default function Bill(){
         ).catch(err => {
             console.log(err)
         })
-    }, [])
-
-
-    const tableHeader = ["Select", "Created Time", "Amount", "Payee", "Ledger Name", "Bank Account Number"]
+    }
 
     const closeWindow = () => {
         setCreateBillOpen(false)
@@ -49,7 +53,8 @@ export default function Bill(){
     const handleDelete = () => {
         apis.deleteBill(ledgerId, billId).then(
             res => {
-                console.log(res.data)
+                console.log(res.data);
+                fetchList()
             }
         ).catch(
             err => {
@@ -73,7 +78,7 @@ export default function Bill(){
                     </Stack>
                 </Grid>
                 <Grid item>
-                    <BillDialog billId ={billId} ledgerId = {ledgerId} openNow={createBillOpen || updateBillOpen} createOrUpdate={createBillOpen} setWindowStatus={closeWindow}/>
+                    <BillDialog billId ={billId} ledgerId = {ledgerId} openNow={createBillOpen || updateBillOpen} createOrUpdate={createBillOpen} setWindowStatus={closeWindow} handleRefresh={fetchList}/>
                 </Grid>
             </Grid>
         </React.Fragment>

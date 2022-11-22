@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -185,7 +186,7 @@ public class UserController {
         }
 
         BankAccount newBankAccount = bankAccountService.save(BankAccount.builder().accountNumber(input.getAccountNumber())
-                .bankName(input.getBankName()).balance(input.getStartBalance()).user(user).build());
+                .bankName(input.getBankName()).balance(input.getStartBalance()).startBalance(input.getStartBalance()).user(user).build());
 
         return modelToDTO.bankAccountToDTO(newBankAccount);
     }
@@ -232,9 +233,10 @@ public class UserController {
                     bankAccount.setBankName(input.getBankName());
                 }
                 if(input.getStartBalance() != null) {
-                    bankAccount.setBalance(input.getStartBalance());
+                    bankAccount.setStartBalance(input.getStartBalance());
                 }
-
+                BigDecimal balance = bankAccountService.calculateBalance(bankAccount.getAccountNumber());
+                bankAccount.setBalance(balance);
                 log.info(input.toString());
                 return modelToDTO.bankAccountToDTO(bankAccountService.save(bankAccount));
             }

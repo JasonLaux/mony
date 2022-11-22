@@ -47,6 +47,7 @@ export default function LedgerDialog(props) {
                 apis.addUserToLedger(getUserId(), name).then(
                     res => {
                         console.log(res.data);
+                        props.handleRefresh();
                         setOpen(false);
                         props.setWindowStatus(false);
                     }
@@ -61,6 +62,7 @@ export default function LedgerDialog(props) {
                 apis.updateLedger(props.ledgerId, name).then(
                     res => {
                         console.log(res.data);
+                        props.handleRefresh();
                         setOpen(false);
                         props.setWindowStatus(false);
                     }

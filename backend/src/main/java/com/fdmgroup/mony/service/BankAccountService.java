@@ -1,13 +1,18 @@
 package com.fdmgroup.mony.service;
 import com.fdmgroup.mony.exception.BankAccountNotFoundException;
 import com.fdmgroup.mony.model.BankAccount;
+import com.fdmgroup.mony.model.Bill;
 import com.fdmgroup.mony.repository.BankAccountRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
+
+import static java.util.Arrays.asList;
 
 /**
  * Bank account service for handling CRUD operations.
@@ -61,4 +66,14 @@ public class BankAccountService {
         return bankAccountRepository.findByUserId(user_id);
     }
 
+    public BigDecimal calculateBalance(String accountNumber){
+        BankAccount bankAccount = getBankAccountByAccountNumber(accountNumber);
+        List<Bill> bills = bankAccount.getBills();
+        BigDecimal start_balance = bankAccount.getStartBalance();
+        if(bills.isEmpty()) {
+            return start_balance;
+        }
+        BigDecimal offset = bills.stream().map(Bill::getAmount).reduce(new BigDecimal("0"), BigDecimal::add);
+        return start_balance.add(offset);
+    }
 }

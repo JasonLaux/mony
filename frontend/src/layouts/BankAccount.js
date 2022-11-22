@@ -20,6 +20,17 @@ export default function BankAccount(){
     const [id, setId] = useState(1);
 
     useEffect(() => {
+        fetchList()
+    }, [])
+
+    const tableHeader = ["Select", "Account Number", "Bank Name", "Balance"]
+
+    const closeWindow = (status) => {
+        setCreateAccountOpen(status)
+        setUpdateAccountOpen(status)
+    }
+
+    const fetchList = () => {
         apis.getAllBankAccounts(getUserId()).then(
             res => {
                 const rows = res.data;
@@ -31,13 +42,10 @@ export default function BankAccount(){
             console.log(getUserId())
             console.log(err)
         })
-    }, [])
+    }
 
-    const tableHeader = ["Select", "Account Number", "Bank Name", "Balance"]
-
-    const closeWindow = (status) => {
-        setCreateAccountOpen(status)
-        setUpdateAccountOpen(status)
+    const handleSubmit = () => {
+        fetchList()
     }
 
     const handleClick = (id) => {
@@ -48,6 +56,7 @@ export default function BankAccount(){
     const handleDelete = () => {
         apis.deleteBankAccount(getUserId(), id).then(
             res => {
+                fetchList()
                 console.log(res.data)
             }
         ).catch(
@@ -72,7 +81,7 @@ export default function BankAccount(){
                     </Stack>
                 </Grid>
                 <Grid item>
-                    <FormDialog accountId={id} openNow={createAccountOpen || updateAccountOpen} createOrUpdate={createAccountOpen} setWindowStatus={closeWindow}/>
+                    <FormDialog accountId={id} openNow={createAccountOpen || updateAccountOpen} createOrUpdate={createAccountOpen} setWindowStatus={closeWindow} handleRefresh={handleSubmit}/>
                 </Grid>
             </Grid>
         </React.Fragment>

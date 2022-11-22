@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Bill service.
@@ -31,6 +32,14 @@ public class BillService {
     private final BankAccountService bankAccountService;
 
     private final ObjectFactory objectFactory;
+
+    public Bill getBillById(long id) {
+        Optional<Bill> maybeBill = billRepository.findById(id);
+        if (maybeBill.isEmpty()) {
+            throw new BillNotFoundException();
+        }
+        return maybeBill.get();
+    }
 
     /**
      * Add a bill.

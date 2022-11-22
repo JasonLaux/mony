@@ -2,8 +2,10 @@ package com.fdmgroup.mony.controller;
 import com.fdmgroup.mony.dto.BillDTO;
 import com.fdmgroup.mony.dto.BillInput;
 import com.fdmgroup.mony.dto.LedgerDTO;
+import com.fdmgroup.mony.model.BankAccount;
 import com.fdmgroup.mony.model.Bill;
 import com.fdmgroup.mony.model.Ledger;
+import com.fdmgroup.mony.service.BankAccountService;
 import com.fdmgroup.mony.service.BillService;
 import com.fdmgroup.mony.service.LedgerService;
 import com.fdmgroup.mony.util.ModelToDTO;
@@ -29,6 +31,8 @@ public class LedgerController {
     private BillService billService;
 
     private ModelToDTO modelToDTO;
+
+    private BankAccountService bankAccountService;
 
     /**
      * Get ledger DTO by its id.
@@ -99,6 +103,9 @@ public class LedgerController {
     @PostMapping("/{id}/bills")
     public BillDTO addBill(@PathVariable long id, @RequestBody BillInput input){
         Bill bill = billService.addBill(id, input);
+        BankAccount bankAccount = bankAccountService.getBankAccountByAccountNumber(input.getAccountNumber());
+        bankAccount.setBalance(bankAccountService.calculateBalance(input.getAccountNumber()));
+        bankAccountService.save(bankAccount);
         return modelToDTO.billToDTO(bill);
     }
 
@@ -111,7 +118,13 @@ public class LedgerController {
     @Operation(summary = "delete bill of ledger using id")
     @DeleteMapping("/{ledger_id}/bills/{bill_id}")
     public String deleteBill(@PathVariable long ledger_id, @PathVariable long bill_id){
+        String accountNum = billService.getBillById(bill_id).getBankAccount().getAccountNumber();
         billService.deleteBill(ledger_id, bill_id);
+
+        BankAccount bankAccount = bankAccountService.getBankAccountByAccountNumber(accountNum);
+        bankAccount.setBalance(bankAccountService.calculateBalance(accountNum));
+        bankAccountService.save(bankAccount);
+
         return "Successfully delete bill with id " + bill_id;
     }
 
@@ -125,7 +138,11 @@ public class LedgerController {
     @Operation(summary = "update a bill")
     @PutMapping("/{ledger_id}/bills/{bill_id}")
     public BillDTO updateBill(@PathVariable long ledger_id, @PathVariable long bill_id, @RequestBody BillInput input){
-        return modelToDTO.billToDTO(billService.updateBill(ledger_id, bill_id, input));
+        Bill bill = billService.updateBill(ledger_id, bill_id, input);
+        BankAccount bankAccount = bankAccountService.getBankAccountByAccountNumber(input.getAccountNumber());
+        bankAccount.setBalance(bankAccountService.calculateBalance(input.getAccountNumber()));
+        bankAccountService.save(bankAccount);
+        return modelToDTO.billToDTO(bill);
     }
 
 }

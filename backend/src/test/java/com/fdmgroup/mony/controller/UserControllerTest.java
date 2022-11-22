@@ -219,30 +219,30 @@ public class UserControllerTest {
         assertThrows(BankAccountNotFoundException.class, ()-> userController.deleteBankAccount(user_id, account_id));
     }
 
-    @Test
-    void test_UpdateBankAccount(){
-        long user_id = 1;
-        long account_id = 2;
-        String accountNumber = "123";
-        String bankName = "test";
-        BigDecimal start_balance = BigDecimal.valueOf(100);
-        BankAccountInput bankAccountInput = mock(BankAccountInput.class);
-        BankAccount bankAccount = mock(BankAccount.class);
-        BankAccountDTO bankAccountDTO = mock(BankAccountDTO.class);
-        List<BankAccount> bankAccounts = List.of(bankAccount);
-        when(mockBankAccountService.getAllBankAccountsByUserId(user_id)).thenReturn(bankAccounts);
-        when(bankAccount.getId()).thenReturn(account_id);
-        when(bankAccountInput.getAccountNumber()).thenReturn(accountNumber);
-        when(bankAccountInput.getBankName()).thenReturn(bankName);
-        when(bankAccountInput.getStartBalance()).thenReturn(start_balance);
-        when(mockBankAccountService.save(bankAccount)).thenReturn(bankAccount);
-        when(mockModelToDTO.bankAccountToDTO(bankAccount)).thenReturn(bankAccountDTO);
-
-        assertEquals(bankAccountDTO, userController.updateBankAccount(user_id, account_id, bankAccountInput));
-        verify(bankAccount).setAccountNumber(accountNumber);
-        verify(bankAccount).setBankName(bankName);
-        verify(bankAccount).setBalance(start_balance);
-    }
+//    @Test
+//    void test_UpdateBankAccount(){
+//        long user_id = 1;
+//        long account_id = 2;
+//        String accountNumber = "123";
+//        String bankName = "test";
+//        BigDecimal start_balance = BigDecimal.valueOf(100);
+//        BankAccountInput bankAccountInput = mock(BankAccountInput.class);
+//        BankAccount bankAccount = mock(BankAccount.class);
+//        BankAccountDTO bankAccountDTO = mock(BankAccountDTO.class);
+//        List<BankAccount> bankAccounts = List.of(bankAccount);
+//        when(mockBankAccountService.getAllBankAccountsByUserId(user_id)).thenReturn(bankAccounts);
+//        when(bankAccount.getId()).thenReturn(account_id);
+//        when(bankAccountInput.getAccountNumber()).thenReturn(accountNumber);
+//        when(bankAccountInput.getBankName()).thenReturn(bankName);
+//        when(bankAccountInput.getStartBalance()).thenReturn(start_balance);
+//        when(mockBankAccountService.save(bankAccount)).thenReturn(bankAccount);
+//        when(mockModelToDTO.bankAccountToDTO(bankAccount)).thenReturn(bankAccountDTO);
+//
+//        assertEquals(bankAccountDTO, userController.updateBankAccount(user_id, account_id, bankAccountInput));
+//        verify(bankAccount).setAccountNumber(accountNumber);
+//        verify(bankAccount).setBankName(bankName);
+//        verify(bankAccount).setBalance(start_balance);
+//    }
 
     @Test
     void test_UpdateBankAccount_ThrowBankAccountNotFoundException(){

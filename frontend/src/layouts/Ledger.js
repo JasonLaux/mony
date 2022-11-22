@@ -22,6 +22,10 @@ export default function Ledger(){
     let navigate = useNavigate();
 
     useEffect(()=>{
+        fetchList()
+    }, [])
+
+    const fetchList = () => {
         apis.getAllLedgers(getUserId()).then(
             res => {
                 console.log(res.data)
@@ -30,7 +34,7 @@ export default function Ledger(){
                 
             }
         )
-    }, [])
+    }
 
     const handleClick = (id) => {
         setLedgerId(id);
@@ -43,7 +47,11 @@ export default function Ledger(){
 
     const handleDeleteClick = () => {
         apis.deleteLedger(ledgerId).then(
-            res => console.log(res)
+            
+            res => {
+                console.log(res);
+                fetchList();
+            }
         ).catch(
             err => console.log(err)
         )
@@ -76,7 +84,7 @@ export default function Ledger(){
                     </Stack>
                 </Grid>
                 <Grid item>
-                    <LedgerDialog ledgerId={ledgerId} setLedgerName={handleSetLedgerName} openNow={createLedgerOpen || addLedgerOpen || updateLedgerOpen} windowName={windowName} setWindowStatus={closeWindow}></LedgerDialog>
+                    <LedgerDialog ledgerId={ledgerId} setLedgerName={handleSetLedgerName} openNow={createLedgerOpen || addLedgerOpen || updateLedgerOpen} windowName={windowName} setWindowStatus={closeWindow} handleRefresh={fetchList}></LedgerDialog>
                 </Grid>
             </Grid>
         </React.Fragment>

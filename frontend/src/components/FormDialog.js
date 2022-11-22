@@ -33,6 +33,7 @@ export default function FormDialog(props) {
             console.log("create bank account...")
             apis.addBankAccount(getUserId(), accountNumber, bankName, startBalance).then(res => {
                 console.log(res.data)
+                props.handleRefresh()
                 setOpen(false);
                 props.setWindowStatus(false);
             }).catch(error => {
@@ -43,6 +44,7 @@ export default function FormDialog(props) {
             console.log("update info...")
             apis.updateBankAccount(getUserId(), props.accountId, accountNumber, bankName, startBalance).then(res => {
                 console.log(res.data)
+                props.handleRefresh()
                 setOpen(false);
                 props.setWindowStatus(false);
             }).catch(error => {

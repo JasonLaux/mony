@@ -31,7 +31,8 @@ export default function BillDialog(props) {
             console.log("creating a new bill...")
                 apis.createBill(props.ledgerId, amount, accountNumber, payeeName).then(
                     res => {
-                        console.log(res.data)
+                        console.log(res.data);
+                        props.handleRefresh();
                         setOpen(false);
                         props.setWindowStatus(false);
                     }
@@ -45,6 +46,7 @@ export default function BillDialog(props) {
             apis.updateBill(props.ledgerId, props.billId, amount, accountNumber, payeeName).then(
                 res => {
                     console.log(res.data);
+                    props.handleRefresh();
                     setOpen(false);
                     props.setWindowStatus(false);
                 }
