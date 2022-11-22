@@ -18,3 +18,13 @@ Frontend: React.js, MUI
 ## ER Diagram
 
 ![Use Case](assets/ERD_New.png)
+
+## Screenshots
+### Login Page
+![Login](assets/login.jpg)
+
+### Add a ledger
+![Login](assets/Ledger.jpg)
+
+### Log a bill
+![Login](assets/Bill.jpg)
