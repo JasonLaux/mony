@@ -1,0 +1,42 @@
+# Deployment and Service 
+# Labels are key-value pairs that are attached to K8s resources
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+  labels:
+    app: mysql
+spec:
+  replicas: 1
+  # Which pods belongs to Deployment?
+  # Identify a set of resources
+  # Match all Pods with label "app:mysql"
+  selector:
+    matchLabels:
+      app: mysql
+  # Blueprints for pods
+  template:
+    metadata:
+      # All replicas share the same label even they have different names
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        ports:
+        - containerPort: 3306
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+spec:
+  # Select pods to forward the requests to
+  selector:
+    app.kubernetes.io/name: mysql
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306

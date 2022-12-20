@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+data:
+  # property-like keys; each key maps to a simple value
+  mysql-url: mysql-service
